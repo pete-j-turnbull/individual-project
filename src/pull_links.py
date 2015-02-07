@@ -3,35 +3,13 @@ from pybloomfilter import BloomFilter
 import pymongo
 import time
 import sys
+from utility import *
 
-alinksname = sys.argv[1]
-
-conn = pymongo.Connection('mongodb://10.240.113.54:27017')
-links = {'l': None}
-bfilter = {'f': None}
-cat_num = int(alinksname)
-
-if cat_num == 9355:
-	links['l'] = conn['auction_links']._9355
-	bfilter['f'] = BloomFilter.open('./bloomfilters/links_9355.bloom')
-elif cat_num == 175672:
-	links['l'] = conn['auction_links']._175672
-	bfilter['f'] = BloomFilter.open('./bloomfilters/links_175672.bloom')
-elif cat_num == 171957:
-	links['l'] = conn['auction_links']._171957
-	bfilter['f'] = BloomFilter.open('./bloomfilters/links_171957.bloom')
-elif cat_num == 171485:
-	links['l'] = conn['auction_links']._171485
-	bfilter['f'] = BloomFilter.open('./bloomfilters/links_171485.bloom')
-elif cat_num == 15052:
-	links['l'] = conn['auction_links']._15052
-	bfilter['f'] = BloomFilter.open('./bloomfilters/links_15052.bloom')
-elif cat_num == 32852:
-	links['l'] = conn['auction_links']._32852
-	bfilter['f'] = BloomFilter.open('./bloomfilters/links_32852.bloom')
-elif cat_num == 50582:
-	links['l'] = conn['auction_links']._50582
-	bfilter['f'] = BloomFilter.open('./bloomfilters/links_50582.bloom')
+category = sys.argv[1]
+cat_num = int(category)
+conn = get_mongo_connection()
+collection = {'c': get_collection(cat_num, 'links', conn)}
+bfilter = {'f': get_filter(cat_num, 'links')}
 
 
 while True:
@@ -42,8 +20,8 @@ while True:
 			item_id = url['item_id']
 			link = url['link']
 			if not bfilter['f'].add(item_id):
-				links['l'].insert( {'item_id': item_id, 'link': link} )
-	except:
-		pass
+				insert(collection['c'], {'item_id': item_id, 'link': link})
+	except Exception as e:
+		print(e)
 
 	time.sleep(15)
