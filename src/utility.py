@@ -10,15 +10,16 @@ settings = import_module(os.environ['SETTINGS'])
 def get_mongo_connection():
 	try:
 		conn = pymongo.Connection('mongodb://%s:%s' % (settings.MONGO_IP, settings.MONGO_PORT))
+		logging.debug('Loaded mongo connection: %s' % conn)
 		return conn
 	except Exception as e:
 		logging.error(e)
 		return None
 
-def get_collection(cat_num, collection_name, conn):
+def get_collection(cat_num, collection, conn):
 	try:
-		if collection_name == 'links' or collection == 'items':
-			db = conn['auction_%s' % collection_name]
+		if collection == 'links' or collection == 'items':
+			db = conn['auction_%s' % collection]
 			if cat_num == 9355:
 				return db._9355
 			if cat_num == 175672:
@@ -33,6 +34,7 @@ def get_collection(cat_num, collection_name, conn):
 				return db._32852
 			if cat_num == 50582:
 				return db._50582
+		logging.error('Return None for collection - category: %s, collection: %s' % (cat_num, collection))
 		return None
 	except Exception as e:
 		logging.error(e)
