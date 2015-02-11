@@ -31,7 +31,7 @@ class Program():
 				logging.debug('Page request succeeded with code %s for url: %s' 
 						% (r.status_code, r.url))
 
-				code.interact(local=locals())
+				#code.interact(local=locals())
 
 				for url in p1['result']:
 					item_id = url['item_id']

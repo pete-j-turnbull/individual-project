@@ -9,7 +9,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('prog')
 parser.add_argument('--category', dest='category', default=None)
 parser.add_argument('--settings', dest='settings', default=None)
-parser.add_argument('--logs', dest='logs', default='../storage/logs')
 
 args = parser.parse_args()
 
