@@ -28,14 +28,14 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # create error file handler and set level to error
-handler = logging.FileHandler(os.path.join(settings.LOG_DIR, "error.log"), "a")
+handler = logging.FileHandler(os.path.join(settings.LOG_DIR, "error_%s%s.log" % (args.prog, args.category)), "a")
 handler.setLevel(logging.ERROR)
 formatter = logging.Formatter("%(asctime)s: %(module)s:%(lineno)s %(funcName)s: %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # create debug file handler and set level to debug
-handler = logging.FileHandler(os.path.join(settings.LOG_DIR, "debug.log"), "a")
+handler = logging.FileHandler(os.path.join(settings.LOG_DIR, "debug_%s%s.log" % (args.prog, args.category)), "a")
 handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s: %(module)s:%(lineno)s %(funcName)s: %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
