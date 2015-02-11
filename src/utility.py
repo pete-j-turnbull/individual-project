@@ -20,19 +20,19 @@ def get_collection(cat_num, collection, conn):
 	try:
 		if collection == 'links' or collection == 'items':
 			db = conn['auction_%s' % collection]
-			if cat_num == 9355:
+			if cat_num == '9355':
 				return db._9355
-			if cat_num == 175672:
+			if cat_num == '175672':
 				return db._175672
-			if cat_num == 171957:
+			if cat_num == '171957':
 				return db._171957
-			if cat_num == 171485:
+			if cat_num == '171485':
 				return db._171485
-			if cat_num == 15052:
+			if cat_num == '15052':
 				return db._15052
-			if cat_num == 32852:
+			if cat_num == '32852':
 				return db._32852
-			if cat_num == 50582:
+			if cat_num == '50582':
 				return db._50582
 		logging.error('Return None for collection - category: %s, collection: %s' % (cat_num, collection))
 		return None
