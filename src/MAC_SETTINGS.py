@@ -1,3 +1,5 @@
+DEBUG = True
+
 MONGO_IP = None
 MONGO_PORT = None
 BLOOM_DIR = '/Users/pete/Development/individual_project/storage/bloomfilters'

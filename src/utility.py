@@ -1,12 +1,18 @@
 from pybloomfilter import BloomFilter
 import pymongo
-from settings import *
+import logging
+import traceback
+import os
+from importlib import import_module
+
+settings = import_module(os.environ['SETTINGS'])
 
 def get_mongo_connection():
 	try:
-		conn = pymongo.Connection('mongodb://%s:%s' % (MONGO_IP, MONGO_PORT))
+		conn = pymongo.Connection('mongodb://%s:%s' % (settings.MONGO_IP, settings.MONGO_PORT))
 		return conn
-	except:
+	except Exception as e:
+		logging.error(e)
 		return None
 
 def get_collection(cat_num, collection_name, conn):
@@ -28,24 +34,27 @@ def get_collection(cat_num, collection_name, conn):
 			if cat_num == 50582:
 				return db._50582
 		return None
-	except:
+	except Exception as e:
+		logging.error(e)
 		return None
 
 def get_filter(cat_num, collection):
 	try:
 		if collection == 'links' or collection == 'items' or collection == 'bids':
-			bfilter = BloomFilter.open('%s/%s_%s.bloom' % (BLOOM_DIR, collection, cat_num))
+			logging.debug('%s/%s_%s.bloom' % (settings.BLOOM_DIR, collection, cat_num))
+			bfilter = BloomFilter.open('%s/%s_%s.bloom' % (settings.BLOOM_DIR, collection, cat_num))
 			return bfilter
 		return None
-	except:
+	except Exception as e:
+		logging.error(e)
 		return None
 
 
 def insert(collection, item):
-	if DEBUG:
-		print("HERE")
-		db = open(FAKE_DATABASE, 'a')
+	if settings.DEBUG:
+		db = open(settings.FAKE_DATABASE, 'a')
 		db.write('%s\n' % item.__str__())
 	else:
 		collection.insert(item)
+
 

@@ -1,1 +1,1 @@
-from settings import *
+from MAC_SETTINGS import *
