@@ -9,6 +9,7 @@ def scrape_page(url):
 
 	try:
 		resp = get(url)
+		print(resp)
 		if resp.status_code != 200:
 			return {'success': False, 'response': resp}
 		resp_j = resp.json()
