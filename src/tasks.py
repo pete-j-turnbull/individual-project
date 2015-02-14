@@ -11,7 +11,7 @@ def scrape_page(url):
 		resp = get(url)
 		print(resp)
 		if resp.status_code != 200:
-			return {'success': False, 'response': resp}
+			return {'success': False, 'response': resp, 'exception': False}
 		resp_j = resp.json()
 		results = resp_j['results']
 
@@ -23,7 +23,7 @@ def scrape_page(url):
 
 		return {'success': True, 'response': resp, 'result': urls}
 	except Exception as e:
-		return {'success': False, 'response': e}
+		return {'success': False, 'response': e, 'exception': True}
 
 
 @task
@@ -31,11 +31,10 @@ def scrape_item(url):
 	try:
 		resp = get(url)
 		if resp.status_code != 200:
-			return {'success': False, 'response': resp}
-		resp_j = resp.json()
+			return {'success': False, 'response': resp, 'exception': True}
 		return {'success': True, 'response': resp}
 	except Exception as e:
-		return {'success': False, 'response': e}
+		return {'success': False, 'response': e, 'exception': True}
 
 
 @task

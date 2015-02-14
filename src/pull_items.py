@@ -29,16 +29,22 @@ class Program():
 				if not self.bfilter.add(item_id):
 					_p = send_task("tasks.scrape_item", ['http://www.ebay.com/itm/%s?orig_cvip=true' % item_id])
 					p = _p.get()
+
 					if not p['success']:
 						r = p['response']
-						logging.error('Item scrape failed with code: %s, reason: %s, response_text: %s for item: %s' 
-							% (r.status_code, r.reason, r.text, item_id))
+						if p['exception']:
+							logging.error('Item scrape failed due to worker exception: %s' % r)
+						else:
+							logging.error('Item scrape failed with code: %s, reason: %s, response_text: %s for item: %s' 
+								% (r.status_code, r.reason, r.text, item_id))
+
 					r = p['response']
 					logging.debug('Item scrape succeeded with code: %s for url: %s' 
 						% (r.status_code, r.url))
 
 					item = {'raw_html': r}
 					insert(self.items_c, item)
+				i += 1
 			except Exception as e:
 				logging.error('Failed to scrape item for item_id: %s' % item_id, exc_info=True) 
 				i += 1
