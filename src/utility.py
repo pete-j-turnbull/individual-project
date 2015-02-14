@@ -43,12 +43,15 @@ def get_collection(cat_num, collection, conn):
 def get_filter(cat_num, operation_name):
 	try:
 		filter_name = '%s/%s_%s.bloom' % (settings.BLOOM_DIR, operation_name, cat_num)
-		logging.debug('Bloom filter file name: %s' % filter_name)
+		
 		if os.path.isfile(filter_name):
 			bfilter = BloomFilter.open(filter_name)
+			logging.debug('Bloom filter file name: %s' % filter_name)
+			return bfilter
 		else:
 			bfilter = BloomFilter(10000000, 0.0001, filter_name)
-		return bfilter
+			logging.debug('Bloom filter file name: %s' % filter_name)
+			return bfilter
 	except Exception as e:
 		logging.error(e)
 		return None
