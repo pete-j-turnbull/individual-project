@@ -38,7 +38,7 @@ class Program():
 						% (r.status_code, r.url))
 
 					item = {'raw_html': r}
-					self.items_c.insert(item)
+					insert(self.items_c, item)
 			except Exception as e:
 				logging.error('Failed to scrape item for item_id: %s' % item_id, exc_info=True) 
 				i += 1
