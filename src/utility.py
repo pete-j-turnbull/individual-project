@@ -47,7 +47,7 @@ def get_filter(cat_num, operation_name):
 		if os.path.isfile(filter_name):
 			bfilter = BloomFilter.open(filter_name)
 		else:
-			bfilter = BloomFilter(capacity=10000000, error_rate=0.0001, filter_name)
+			bfilter = BloomFilter(10000000, 0.0001, filter_name)
 		return bfilter
 	except Exception as e:
 		logging.error(e)
