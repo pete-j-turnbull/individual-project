@@ -40,17 +40,15 @@ def get_collection(cat_num, collection, conn):
 		logging.error(e)
 		return None
 
-def get_filter(cat_num, collection):
+def get_filter(cat_num, operation_name):
 	try:
-		if collection == 'links' or collection == 'items' or collection == 'bids':
-			filter_name = '%s/%s_%s.bloom' % (settings.BLOOM_DIR, collection, cat_num)
-			logging.debug('Bloom filter file name: %s' % filter_name)
-			if os.path.isfile(filter_name):
-				bfilter = BloomFilter.open(filter_name)
-			else:
-				bfilter = BloomFilter(capacity=10000000, error_rate=0.0001)
-			return bfilter
-		return None
+		filter_name = '%s/%s_%s.bloom' % (settings.BLOOM_DIR, collection, cat_num)
+		logging.debug('Bloom filter file name: %s' % filter_name)
+		if os.path.isfile(filter_name):
+			bfilter = BloomFilter.open(filter_name)
+		else:
+			bfilter = BloomFilter(capacity=10000000, error_rate=0.0001)
+		return bfilter
 	except Exception as e:
 		logging.error(e)
 		return None
