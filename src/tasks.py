@@ -33,7 +33,7 @@ def scrape_item(url):
 		if resp.status_code != 200:
 			return {'success': False, 'response': resp}
 		resp_j = resp.json()
-		return {'success': True, 'response': resp, 'result': resp_j}
+		return {'success': True, 'response': resp}
 	except Exception as e:
 		return {'success': False, 'result': e}
 

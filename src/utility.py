@@ -16,7 +16,7 @@ def get_mongo_connection():
 		logging.error(e)
 		return None
 
-def get_collection(cat_num, collection, conn):
+def get_collection(cat_num, collection, conn):c
 	try:
 		if collection == 'links' or collection == 'items':
 			db = conn['auction_%s' % collection]
@@ -44,7 +44,11 @@ def get_filter(cat_num, collection):
 	try:
 		if collection == 'links' or collection == 'items' or collection == 'bids':
 			logging.debug('%s/%s_%s.bloom' % (settings.BLOOM_DIR, collection, cat_num))
-			bfilter = BloomFilter.open('%s/%s_%s.bloom' % (settings.BLOOM_DIR, collection, cat_num))
+			filter_name = '%s/%s_%s.bloom' % (settings.BLOOM_DIR, collection, cat_num)
+			if os.path.isfile(filter_name):
+				bfilter = BloomFilter.open(filter_name)
+			else:
+				bfilter = BloomFilter(capacity=10000000, error_rate=0.0001)
 			return bfilter
 		return None
 	except Exception as e:
