@@ -35,7 +35,7 @@ def scrape_item(url):
 		resp_j = resp.json()
 		return {'success': True, 'response': resp}
 	except Exception as e:
-		return {'success': False, 'result': e}
+		return {'success': False, 'response': e}
 
 
 @task
@@ -47,6 +47,6 @@ def scrape_bids(url):
 		resp_j = resp.json()
 		return {'success': True, 'response': resp, 'result': resp_j}
 	except Exception as e:
-		return {'success': False, 'result': e}
+		return {'success': False, 'response': e}
 
 
