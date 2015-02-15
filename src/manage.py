@@ -22,7 +22,7 @@ logger.setLevel(logging.DEBUG)
 
 # create console handler and set level to info
 handler = logging.StreamHandler()
-handler.setLevel(logging.INFO)
+handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s: %(module)s:%(lineno)s %(funcName)s: %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
