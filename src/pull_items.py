@@ -47,7 +47,7 @@ class Program():
 					logging.debug('Item scrape succeeded with code: %s for url: %s' 
 						% (r.status_code, r.url))
 
-					item = {'raw_html': r}
+					item = {'raw_html': r.text}
 					insert(self.items_c, item)
 				i += 1
 			except Exception as e:
