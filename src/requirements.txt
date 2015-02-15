@@ -2,8 +2,6 @@ anyjson==0.3.3
 beautifulsoup4==4.3.2
 celery==3.1.17
 mongoengine==0.8.0
-Pillow==2.6.1
 pybloomfiltermmap==0.3.14
 pymongo==2.7.2
 requests==2.4.3
-simplejson==3.6.5
