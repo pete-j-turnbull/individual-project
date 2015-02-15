@@ -9,7 +9,7 @@ settings = import_module(os.environ['SETTINGS'])
 
 def get_mongo_connection():
 	try:
-		conn = pymongo.Connection('mongodb://%s:%s' % (settings.MONGO_IP, settings.MONGO_PORT))
+		conn = pymongo.Connection('mongodb://%s:%s' % (settings.MONGO_IP, settings.MONGO_PORT), safe=True)
 		logging.debug('Loaded mongo connection: %s' % conn)
 		return conn
 	except Exception as e:
@@ -37,7 +37,7 @@ def get_collection(cat_num, collection, conn):
 		logging.error('Return None for collection - category: %s, collection: %s' % (cat_num, collection))
 		return None
 	except Exception as e:
-		logging.error(e)
+		logging.error(e, exc_info=True)
 		return None
 
 def get_filter(cat_num, operation_name):
@@ -53,15 +53,19 @@ def get_filter(cat_num, operation_name):
 			logging.debug('Bloom filter file name: %s' % filter_name)
 			return bfilter
 	except Exception as e:
-		logging.error(e)
+		logging.error(e, exc_info=True)
 		return None
 
 
 def insert(collection, item):
-	if settings.DEBUG:
-		db = open(settings.FAKE_DATABASE, 'a')
-		db.write('%s\n' % item.__str__())
-	else:
-		collection.insert(item)
+	try:
+		if settings.DEBUG:
+			db = open(settings.FAKE_DATABASE, 'a')
+			db.write('%s\n' % item.__str__())
+		else:
+			collection.insert(item)
+	except Exception as e:
+		logging.error(e, exc_info=True)
+
 
 

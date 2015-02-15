@@ -30,13 +30,18 @@ class Program():
 					_p = send_task("tasks.scrape_item", ['http://www.ebay.com/itm/%s?orig_cvip=true' % item_id])
 					p = _p.get()
 
+					#Do error checking here - insert ERROR and continue if there is a problem
 					if not p['success']:
 						r = p['response']
 						if p['exception']:
 							logging.error('Item scrape failed due to worker exception: %s' % r)
+							insert(self.items_c, 'ERROR')
+							continue
 						else:
 							logging.error('Item scrape failed with code: %s, reason: %s, response_text: %s for item: %s' 
 								% (r.status_code, r.reason, r.text, item_id))
+							insert(self.items_c, 'ERROR')
+							continue
 
 					r = p['response']
 					logging.debug('Item scrape succeeded with code: %s for url: %s' 
