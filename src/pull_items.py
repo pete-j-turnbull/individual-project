@@ -34,12 +34,12 @@ class Program():
 					if not p['success']:
 						r = p['response']
 						if p['exception']:
-							logging.error('Item scrape failed due to worker exception: %s' % r)
+							logging.error('Item scrape ID(%s) failed due to worker exception: %s' % (item_id, r)
 							insert(self.items_c, 'ERROR')
 							continue
 						else:
-							logging.error('Item scrape failed with code: %s, reason: %s, response_text: %s for item: %s' 
-								% (r.status_code, r.reason, r.text, item_id))
+							logging.error('Item scrape ID(%s) failed with code: %s, reason: %s, response_text: %s for item: %s' 
+								% (item_id, r.status_code, r.reason, r.text, item_id))
 							insert(self.items_c, 'ERROR')
 							continue
 

@@ -68,4 +68,14 @@ def insert(collection, item):
 		logging.error(e, exc_info=True)
 
 
+def update(collection, entry_id, new_fields):
+	try:
+		if settings.DEBUG:
+			raise Exception("Can't update items in debug mode - only insert allowed")
+		else:
+			collection.update({"_id": entry_id}, {"$set": new_fields })
+	except Exception as e:
+		logging.error(e, exc_info=True)
+
+
 
