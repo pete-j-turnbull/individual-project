@@ -1,11 +1,10 @@
-sys.path.append('../libs/fabric')
-from api import run, env, cd
+from fabric.api import run, env, cd
 
 env.user = 'pt1812'
-env.hosts = ['shell1.doc.ic.ac.uk']
+env.hosts = ['pixel01.doc.ic.ac.uk']
+env.gateway = 'shell1.doc.ic.ac.uk'
 
 def run_worker():
     with cd('/homes/pt1812/Development/individual_project/src'):
-    	run('../libs/fab -f fabfile_internal.py run_worker')
-
+    	run('nohup ../libs/celery worker -l info --concurrency=16 &')
 
