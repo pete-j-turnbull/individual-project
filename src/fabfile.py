@@ -1,7 +1,7 @@
 from fabric.api import run, env, cd
 
 env.user = 'pt1812'
-env.hosts = ['pixel01.doc.ic.ac.uk']
+env.hosts = ['edge12.doc.ic.ac.uk']
 env.gateway = 'shell1.doc.ic.ac.uk'
 
 def run_worker():
