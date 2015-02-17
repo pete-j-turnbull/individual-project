@@ -1,4 +1,5 @@
-from fabric.api import run, env, cd
+sys.path.append('../libs/fabric')
+from api import run, env, cd
 
 env.user = 'pt1812'
 env.hosts = ['shell1.doc.ic.ac.uk']
