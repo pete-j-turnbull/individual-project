@@ -1,3 +1,5 @@
+DEBUG = False
+
 MONGO_IP = '146.169.47.50'
 MONGO_PORT = '27017'
 BLOOM_DIR = '/home/pt1812/individual_project/storage/bloomfilters'
