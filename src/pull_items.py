@@ -17,9 +17,10 @@ class Program():
 		self.links_c = get_collection(CATEGORY, 'links', self.conn)
 		self.items_c = get_collection(CATEGORY, 'items', self.conn)
 		self.bfilter = get_filter(CATEGORY, 'items_raw')
+		self.efilter = get_filter(CATEGORY, 'items_raw_error')
 
 	def run_program(self):
-		i = 0
+		i = START_INDEX
 		ls = self.links_c.find()
 		while True:
 			if i >= ls.count():
@@ -35,12 +36,11 @@ class Program():
 						r = p['response']
 						if p['exception']:
 							logging.error('Item scrape ID(%s) failed due to worker exception: %s' % (item_id, r)
-							insert(self.items_c, 'ERROR')
 							continue
 						else:
 							logging.error('Item scrape ID(%s) failed with code: %s, reason: %s, response_text: %s for item: %s' 
 								% (item_id, r.status_code, r.reason, r.text, item_id))
-							insert(self.items_c, 'ERROR')
+							self.efilter.add(item_id)
 							continue
 
 					r = p['response']
@@ -51,7 +51,8 @@ class Program():
 					insert(self.items_c, item)
 				i += 1
 			except Exception as e:
-				logging.error('Failed to scrape item for item_id: %s' % item_id, exc_info=True) 
+				logging.error('Failed to scrape item for item_id: %s' % item_id, exc_info=True)
+				self.efilter.add(item_id)
 				i += 1
 
 
