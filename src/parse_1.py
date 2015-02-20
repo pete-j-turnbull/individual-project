@@ -40,7 +40,7 @@ class Program():
 					r = obj['result']
 					logging.debug('Item parse 1 succeeded for item ID: %s, entry ID: %s' % (r['item_id'], entry_id))
 
-					update(self.items_c, entry_id, {"item_id": r['item_id'], "html1": r['html1']} )
+					update(self.items_c, entry_id, {"item_id": r['item_id'], "html1": r['html1']}, {"raw_html": ""})
 
 				i += 1
 			except Exception as e:
