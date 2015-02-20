@@ -49,7 +49,6 @@ def parse_item_1(raw_html):
 
 			div_class = d.get('class')
 			div_id = d.get('id')
-			
 			if div_id in divIds:
 				obj['html1'][div_id] = d.__str__()
 
