@@ -27,8 +27,8 @@ class Program():
 			try:
 				entry_id = items[i]['_id'].__str__()
 				if not self.bfilter.add(entry_id):
-
-					_obj = send_task("tasks.parse_item_1", [entry_id])
+					raw_html = items[i]['raw_html'].__str__()
+					_obj = send_task("tasks.parse_item_1", [raw_html])
 					obj = _obj.get()
 
 					if not obj['success']:

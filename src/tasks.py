@@ -41,8 +41,8 @@ def scrape_item(url):
 @task
 def parse_item_1(entry_id):
 	try:
-		raw_html = get('http://%s:%s?entry_id=%s' % ('146.169.46.139', '443', entry_id))
-		soup = BeautifulSoup(raw_html)
+		#raw_html = get('http://%s:%s?entry_id=%s' % ('146.169.46.139', '443', entry_id)).text
+		soup = BeautifulSoup(entry_id)
 		divIds = ['CenterPanelInternal', 'ShipNHadling', 'rpdId', 'payId', 'vi-desc-maincntr']
 		obj = {'html1': {}, 'item_id': None}
 
@@ -59,7 +59,7 @@ def parse_item_1(entry_id):
 				obj['item_id'] = m.group(1)
 
 			if div_id in divIds:
-				obj['html1'][div_id] = d
+				obj['html1'][div_id] = d.__str__()
 
 		return {'success': True, 'result': obj}
 	except Exception as e:
