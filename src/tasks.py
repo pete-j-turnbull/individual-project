@@ -49,6 +49,9 @@ def parse_item_1(raw_html):
 
 			div_class = d.get('class')
 			div_id = d.get('id')
+			
+			if div_id in divIds:
+				obj['html1'][div_id] = d.__str__()
 
 			if div_class is None:
 				continue
@@ -56,9 +59,6 @@ def parse_item_1(raw_html):
 				id_text = d.__str__()
 				m = re.search('>([0-9]+)</div>', id_text)
 				obj['item_id'] = m.group(1)
-
-			if div_id in divIds:
-				obj['html1'][div_id] = d.__str__()
 
 		return {'success': True, 'result': obj}
 	except Exception as e:

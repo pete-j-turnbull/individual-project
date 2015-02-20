@@ -20,8 +20,9 @@ class Program():
 		self.efilter = get_filter(CATEGORY, 'items_raw_error')
 
 	def run_program(self):
-		i = START_INDEX
+		i = int(START_INDEX)
 		ls = self.links_c.find()
+		code.interact(local=locals())
 		while True:
 			if i >= ls.count():
 				break
@@ -35,7 +36,7 @@ class Program():
 					if not p['success']:
 						r = p['response']
 						if p['exception']:
-							logging.error('Item scrape ID(%s) failed due to worker exception: %s' % (item_id, r)
+							logging.error('Item scrape ID(%s) failed due to worker exception: %s' % (item_id, r))
 							continue
 						else:
 							logging.error('Item scrape ID(%s) failed with code: %s, reason: %s, response_text: %s for item: %s' 

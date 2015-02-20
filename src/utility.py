@@ -4,6 +4,7 @@ import logging
 import traceback
 import os
 from importlib import import_module
+from bson.objectid import ObjectId
 
 settings = import_module(os.environ['SETTINGS'])
 
@@ -84,7 +85,7 @@ def update(collection, entry_id, new_fields):
 		if settings.DEBUG:
 			raise Exception("Can't update items in debug mode - only insert allowed")
 		else:
-			collection.update({"_id": entry_id}, {"$set": new_fields })
+			collection.update({"_id": ObjectId(entry_id)}, {"$set": new_fields, "$unset": {"raw_html": ""}})
 	except Exception as e:
 		logging.error(e, exc_info=True)
 

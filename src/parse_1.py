@@ -19,7 +19,7 @@ class Program():
 		self.efilter = get_filter(CATEGORY, 'items_html1_error')
 
 	def run_program(self):
-		i = 0
+		i = int(START_INDEX)
 		items = self.items_c.find()
 		while True:
 			if i >= items.count():

@@ -7,6 +7,7 @@ env.hosts = ['pt1812@edge01.doc.ic.ac.uk','pt1812@edge02.doc.ic.ac.uk','pt1812@e
 #env.hosts += ['guest@146.169.47.6', 'guest@146.169.46.121', 'runuser@146.169.47.41']
 env.gateway = 'shell1.doc.ic.ac.uk'
 env.skip_bad_hosts = True
+env.timeout=2
 
 
 def run_worker():
