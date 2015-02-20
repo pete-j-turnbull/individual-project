@@ -16,6 +16,7 @@ class Program():
 		self.conn = get_mongo_connection()
 		self.items_c = get_collection(CATEGORY, 'items', self.conn)
 		self.bfilter = get_filter(CATEGORY, 'items_html1')
+		self.efilter = get_filter(CATEGORY, 'items_html1_error')
 
 	def run_program(self):
 		i = 0
@@ -33,6 +34,7 @@ class Program():
 					if not obj['success']:
 						exception = obj['response']
 						logging.error('Item parse 1 EntryID(%s) failed due to worker exception: %s' % (entry_id, exception))
+						self.efilter.add(entry_id)
 						continue
 
 					r = obj['result']
@@ -42,7 +44,8 @@ class Program():
 
 				i += 1
 			except Exception as e:
-				logging.error('Failed to parse item(1) for entry_id: %s' % entry_id, exc_info=True) 
+				logging.error('Failed to parse item(1) for entry_id: %s' % entry_id, exc_info=True)
+				self.efilter.add(entry_id)
 				i += 1
 
 

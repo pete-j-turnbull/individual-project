@@ -9,6 +9,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('prog')
 parser.add_argument('--category', dest='category', default=None)
 parser.add_argument('--settings', dest='settings', default=None)
+parser.add_argument('--start_index', dest='start_item_index', default=0)
 
 args = parser.parse_args()
 
@@ -43,4 +44,4 @@ logger.addHandler(handler)
 
 
 #Run module with all settings stored as global
-runpy.run_module(args.prog, init_globals={'CATEGORY': args.category}, run_name=None, alter_sys=False)
+runpy.run_module(args.prog, init_globals={'CATEGORY': args.category, 'START_INDEX': args.start_item_index}, run_name=None, alter_sys=False)

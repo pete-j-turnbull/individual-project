@@ -57,6 +57,17 @@ def get_filter(cat_num, operation_name):
 		return None
 
 
+
+#TODO
+def get_error_filter(cat_num, operation_name):
+	pass
+
+
+#TODO
+def get_start_item_index(cat_num):
+	pass
+
+
 def insert(collection, item):
 	try:
 		if settings.DEBUG:
