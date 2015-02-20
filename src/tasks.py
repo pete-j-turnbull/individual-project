@@ -41,7 +41,7 @@ def scrape_item(url):
 @task
 def parse_item_1(entry_id):
 	try:
-		raw_html = get('http://%s:%s?entry_id=%s' % (C_IP, C_PORT, entry_id))
+		raw_html = get('http://%s:%s?entry_id=%s' % (146.169.46.139, 443, entry_id))
 		soup = BeautifulSoup(raw_html)
 		divIds = ['CenterPanelInternal', 'ShipNHadling', 'rpdId', 'payId', 'vi-desc-maincntr']
 		obj = {'html1': {}, 'item_id': None}

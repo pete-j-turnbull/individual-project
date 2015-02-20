@@ -3,6 +3,7 @@ from importlib import import_module
 from utility import *
 import cherrypy
 import json
+from bson.objectid import ObjectId
 
 settings = import_module(os.environ['SETTINGS'])
 
@@ -14,8 +15,8 @@ class Root(object):
 
 	@cherrypy.expose
 	def index(self, entry_id):
-		item = self.coll.find({'_id': entry_id})
-		raw_html = item['raw_html']
+		item = self.coll.find({'_id': ObjectId(entry_id)})
+		raw_html = item[0]['raw_html']
 		return raw_html
 
 	@cherrypy.expose
