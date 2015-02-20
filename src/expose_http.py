@@ -10,21 +10,13 @@ class Root(object):
 	
 	def __init__(self, program):
 		super(Root, self).__init__()
-		self.cursor = program.collection.find()
+		self.coll = program.collection
 
 	@cherrypy.expose
-	def index(self, start, end):
-		links = []
-		start_num = int(start)
-		end_num = int(end)
-
-		for i in range(start_num, end_num + 1):
-			item = self.cursor[i]
-			item_id = item['item_id']
-			link = item['link']
-			n_item = {'item_id': item_id, 'link': link}
-			links.append(n_item)
-		return json.dumps(links)
+	def index(self, entry_id);
+		item = self.coll.find({'_id': entry_id})
+		raw_html = item['raw_html']
+		return raw_html
 
 	@cherrypy.expose
 	def count(self):
@@ -35,8 +27,8 @@ class Program():
 	def __init__(self):
 		self.category = CATEGORY
 		self.conn = get_mongo_connection()
-		self.collection = get_collection(CATEGORY, 'links', self.conn)
-		self.bfilter = get_filter(CATEGORY, 'links')
+		self.collection = get_collection(CATEGORY, 'items', self.conn)
+		self.bfilter = get_filter(CATEGORY, 'items')
 
 	def run_program(self):
 		C_IP = '0.0.0.0'
