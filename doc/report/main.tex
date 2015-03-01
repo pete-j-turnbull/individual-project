@@ -1,85 +1,187 @@
-\documentclass[a4paper]{article}
+\documentclass[12pt]{article}
 
 \usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
 
-\title{Your Paper}
-\author{You}
+\setlength{\parskip}{\baselineskip}%
+\setlength{\parindent}{0pt}%
+
+\title{Predicting the Outcome of online eBay auctions using techniques from machine learning - Interim Report}
+
+\author{\begin{tabular}{r@{ }l} 
+Author:      & Pete Turnbull \\[1ex]
+Supervisor: & Dr Marc Deisenroth
+\end{tabular}}
+
+\date{\today}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Your abstract.
+Online auction sites such as eBay and Craigslist have been producing a new class of fine-grained data detailing the behaviour of online auctions and transactions. This data lends itself to a variety of applications and services for both buyers and sellers. An important part of these applications and services is the prediction of auction outcome and/or end price.
+This project aims to predict both outcome and end price of auctions on eBay.com under the categories: Phones, Laptops + Notebooks, Desktops, Tablets, Portable Audio, TV + Home Audio, and Home Automation.  This report details the stages of obtaining the training and test data-sets from eBay, extracting features from these data-sets, and finally training (and testing) a selection of machine learning algorithms (including Naïve Bayes, Logistic Regression, Neural Networks) to see which perform most accurately.
+As a potential commercial application of this system (and data), a prototype of an Auction Price Insurance service will be developed that uses the predicted end price of auctions to offer a price insurance to sellers. This service would be of particular use to smaller online sellers, as these users are less tolerant to short bouts of poor auction performance.
 \end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
 
 \section{Introduction}
 
-Your introduction goes here! Some examples of commonly used commands and features are listed below, to help you get started. If you have a question, please use the help menu (``?'') on the top bar to search for help or ask us a question. 
+\subsection{Background}
 
-\section{Some examples to get started}
+Over the last decade, online marketplaces have gained in popularity due to both their convenience and competitive pricing. The total cost of the goods sold through eBay in 2014 exceeded \$5.5 billion and this value has been increasing rapidly for the last few years. While these marketplaces offer a unique opportunity to buy and sell goods at potentially reduced prices, they also offer a fantastic source and reliable, fine-grained data suitable for making inferences on mass economic behaviour, market research and for providing services to the buyers and sellers participating in these marketplaces.
 
-\subsection{How to add Comments}
+Naive Bayes Classifiers are a family of probabilistic classifiers based on Bayes theorem that are well suited to making classification predictions based on large numbers of independent features. They scale well and offer reasonable accuracy when the independence assumption is partially met.
 
-Comments can be added to your project by clicking on the comment icon in the toolbar above. % * <john.hammersley@gmail.com> 2014-09-03T09:54:16.211Z:
-%
-% Here's an example comment!
-%
-To reply to a comment, simply click the reply button in the lower right corner of the comment, and you can close them when you're done.
+Support Vector Machines are a most advanced supervised learning models with associated learning algorithms that recognise patterns in data and are normally used for classification and regression analysis. It is a non probabilistic training classifier.
+TODO more stuff here.
 
-\subsection{How to include Figures}
 
-First you have to upload the image file from your computer using the upload link the project menu. Then use the includegraphics command to include it in your document. Use the figure environment and the caption command to add a number and a caption to your figure. See the code for Figure \ref{fig:frog} in this section for an example.
+
+\subsection{Motivation}
+While, end of auction prices generally reflect the intrinsic value of items however, there exists a certain variability in sale prices that may be attributed to factors such as auction start price, seller rating, item visibility and also temporal factors affecting the market supply and demand forces. 
+Of course, this sale price variability raises the question as to whether or not we can manipulate the dynamics of an auction for monetary gain. Perhaps, armed with large auction data-sets, we could predict the outcome of variety of auctions and leverage this knowledge to our benefit.
+
+\subsection{Objectives}
+The main aim of this project is, first and foremost, to build a system capable of predicting the end price of auction listings on eBay.com under the categories: Phones, Laptops + Notebooks, Desktops, Tablets, Portable Audio, TV + Home Audio, and Home Automation.\newline
+
+However, of further interest, is how this system could be commercially useful. One interesting idea is to build a Price Insurance service that enables smaller sellers to ‘insure’ their auctions against short-term bouts of poor performance. A seller using the service would be able to guarantee a minimum price for their auction (much like the reserve feature) so that if the auction item sells for less than their chosen minimum, they are reimbursed the difference. This is important especially for smaller sellers as they are less risk tolerant (as show by their frequent use of the reserve feature) and are unable to diversify this risk due to low initial capital.
+
+\subsection{Related Work}
+There have been a number of research projects undertaken into using machine learning based on auction data-sets from sites such as eBay and Craigslist to predict auction outcome. However, their scope has often been limited by either available computing power or by the size of their collected data-set. This means the projects usually tie themselves to a small, specific area of the marketplace in order to reduce their problem domain to something more manageable.
+
+\subsubsection{Accenture - Price Prediction and Insurance for Online Auctions 2005}
+This paper focuses on a single category (PDAs) that was clearly of more interest in 2005 than 2015 and as such is limited in scale and scope. However, some interesting applications of such a price prediction service are explored - this paper triggered the idea for the Price Insurance Service and due to increased data and computing power could now be much more commercially viable.
+
+\subsubsection{Stanford- A Novel Method for Predicting the End-Price of eBay Auctions - 2013}
+ This research explores Naive Bayes and Multinomial Logistic Regression learning algorithms in detail - it was particularly useful in explaining how to model a problem such as price prediction. However, the paper is again limited in scope (the training set is less than 1000 listings and it focuses on Music Records). They preprocess their training data removing words such as skips, damage, broken, warped etc. This means they aren't really taking into consideration the condition of a record - perhaps this is because their data-set is too small.
+ 
+\subsubsection{Stanford - Predicting the Effectiveness of Bike Classifieds - 2012}
+This paper focuses on a different problem but uses similar analysis techniques and gave some ideas for the data collection process. It also was one of the few projects to use Support Vector Machines (a deterministic model).
+
+It seems based on previous projects that few, if any, projects have been undertaken aiming at a wider scope of categories and larger data-sets. This means more complex algorithms such as Neural Networks cannot be properly trained as they require much larger data-sets.
+\newpage
+
+
+\section{Data Collection}
+
+For this project, auction data was scraped from eBay.com using a web crawler hand-build for the purpose in Python under the following categories: Phones, Laptops + Notebooks, Desktops, Tablets, Portable Audio, TV + Home Audio, and Home Automation. 
+I initially looked into using the eBay developer API for collected the data however there a number of constraints in place for users with an entry-level subscription (ie free) that limit the size and scope of the data collected so I elected to manually  collect the data using a web crawler. 
+At the time of this report, the crawler has been running for about two months and has so far collected 350000 auction listings - by the end of the project it will have collected over 1 million listings.
+
+\subsection{Overview of crawling system}
+For each category, our crawler system followed a set of asynchronous processes that enabled it to build up a reasonably large data-set storing detailed descriptions of each auction listing in that category.
+
+\begin{enumerate}
+\item Initially, a search query is constructed to find all completed auctions in our chosen category. Then our crawler is instructed to poll that url multiple times per minute. 
+\item The system then extracts all listing urls from the search response storing in a database the urls for later download. Importantly, it also extracts and stores the item id of each listing to avoid duplicates in the data-set.
+\item Each listing url is then visited by the crawler and the raw HTML response stored in the database again remembering the item id of the listing to avoid duplicates.
+\item A separate process then quickly parses this raw HTML into four 'page sections' to remove junk and reduce used disk space - the auction page is shown in Figure 1.
+\item Each page section can then be separately parsed and an item model built for each item id.
+\end{enumerate}
+
 
 \begin{figure}
 \centering
-\includegraphics[width=0.3\textwidth]{frog.jpg}
-\caption{\label{fig:frog}This frog was uploaded via the project menu.}
+\includegraphics[width=1\textwidth]{screeny.png}
+\caption{eBay listing showing sections of interest}
 \end{figure}
 
-\subsection{How to add Tables}
-
-Use the table and tabular commands for basic tables --- see Table~\ref{tab:widgets}, for example. 
-
-\begin{table}
-\centering
-\begin{tabular}{l|r}
-Item & Quantity \\\hline
-Widgets & 42 \\
-Gadgets & 13
-\end{tabular}
-\caption{\label{tab:widgets}An example table.}
-\end{table}
-
-\subsection{How to write Mathematics}
-
-\LaTeX{} is great at typesetting mathematics. Let $X_1, X_2, \ldots, X_n$ be a sequence of independent and identically distributed random variables with $\text{E}[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$, and let
-$$S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
-      = \frac{1}{n}\sum_{i}^{n} X_i$$
-denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
 
 
-\subsection{How to create Sections and Subsections}
+\subsection{Distributing the work}
 
-Use section and subsections to organize your document. Simply use the section and subsection buttons in the toolbar to create them, and we'll handle all the formatting and numbering automatically.
+The process that the crawler goes through to build our data-set is designed so that both the downloading and parsing of listing pages can be run asynchronously on a number of threads or processes. This enables multiple simultaneous connections to eBay for faster download of items and full use of the machine CPU cores in processing the raw HTML.
 
-\subsection{How to add Lists}
+However, there is a problem with scraping one site (eBay) with a single machine - eBay will either heavily throttle or ban the IP address of the machine once it detects abnormal activity from that source. Most sites do this to stop attacks such as Denial of Service on their site.
 
-You can make lists with automatic numbering \dots
+In order to stop this from happening, either the downloading of the listings must be done over a much longer period of time or we must distribute the work across multiple machines each with a different IP address. This will also give us a massive speed up later when training the learning algorithms.
 
+One interesting approach to this described on thnkr.quora [citation needed] involved using Heroku dyno instances [citation to Heroku] to make the connections to eBay as the IP address of these machines changes every 15 minutes. While this approach would have worked for the downloading of many listings without IP throttling, it did not give the benefit of high speed algorithm training.
+
+As such, a medium size cluster environment was set up on Imperial College network with the following specifications:
 \begin{enumerate}
-\item Like this,
-\item and like this.
+\item 30 worker (processing) nodes - more can be added with ease.
+\item 3 MongoDB database instances with a 1 Terabyte hard drive each deployed in a sharded configuration (effectively giving us a single database with 3 Terabytes of capacity)
+\item A master control server with 16 cores and 32 GB RAM that links the database with our worker nodes - this server issues tasks to the workers and stores the results in the database.
+\item This is all run on an 800MB/s network so listing downloads are extremely fast.
 \end{enumerate}
-\dots or bullet points \dots
-\begin{itemize}
-\item Like this,
-\item and like this.
-\end{itemize}
 
-We hope you find Overleaf useful, and please let us know if you have any feedback using the help menu above.
+
+The tools required to setup our cluster environment were:
+\begin{enumerate}
+\item Celery - a distributed task queue protocol implemented in Python. It scales up to millions of tasks per day and is perfect for our needs.
+\item RabbitMQ - this is an advanced message brokering system that is used as a backend for celery. It enables reliable message delivery and is highly configurable for different scenarios.
+\item MongoDB - this is a document oriented database that suits auction data as it is not inherently relational.
+\item Pybloomfilter - a implementation of a bloom filter in python.
+\end{enumerate}
+
+
+This setup was designed with scalability in mind - it is extremely easy to add more database storage capacity or power to the MongoDB cluster and adding new workers to Celery requires zero extra configuration. The system is also very tolerant of unreliable connections and sudden worker disconnections - RabbitMQ keeps track of which messages are delivered and which failed.
+
+The worker machines operate in a threaded environment so that they can make full use of their CPU cores (each worker machine has 16 cores) and they each have a static external IP address. They open their own connections to eBay, download the required content, and relay it back to the master server.
+
+
+\subsection{Avoiding Duplicates}
+There is a problem with this massive speed up in listing collection - checking for duplicate listing downloads. Previously, a list of all downloaded item ids was stored in a file and checked it each time a new item was added to the database. Unfortunately, this solution doesn't scale well when the number of items increases exceeds 100000.
+
+To remedy this performance bottleneck, a bloom filter was used to store the ids of all downloaded items. A bloom filter is a probabilistic data structure that use a tree of hashes to check existence at high speed with low storage requirements. It doesn't always get the answer right however this is not a problem for our system - occasionally missing a listing is not a problem when collecting millions of listings.
+
+
+\subsection{Parsing the raw HTML}
+There are a number of ways of parsing the raw HTML of each eBay listing. At the most basic we can use regular expressions to match patterns in the HTML and pull out the required information. However, this approach is grossly inefficient and isn't very robust - the listing HTML varies too much to do this reliably.
+
+Eventually, an HTML parsing framework implemented in Python called BeautifulSoup was used as it is was the most simple and robust system available - it constructs a BSON (Binary JSON) object of the web page that enables matching using CSS hooks (style attributes in HTML that happen to identify regions of interest).
+
+
+\newpage
+
+\section{Training the Machine Learning algorithms}
+
+Initially a small selection of algorithms were trained on a randomly sampled partition of the data-set and then tested to understand evaluate their performance and understand the various trade offs associated with each algorithm. 
+However, in order to analyse our full data-sets in a reasonable time-frame, the cluster environment described in the previous section was used to train algorithms at high speed. This speed up enables much more complex ideas to be tested against the data.
+
+Of course, running these algorithms in a distributed way and making full use of the available computing power is not as easy as it might seem. A paper written by the Computing department at Stanford in collaboration with Intel titled 'Map-Reduce for Machine Learning on Multicore' [citation needed] addresses the problem of adapting any machine learning algorithm to work with a Map Reduce paradigm.
+
+It proves that any algorithm fitting the Statistical Query Model may be adapted to run in parallel achieving near linear speedup with respect to the number of CPU cores assigned to the task.
+
+There are some algorithms of potential interest that do not fit the Statistical Query Model however for the most part we can distribute our work efficiently.
+This system works by converting a supported algorithm to 'Summation Form' that enables lots of calculations to be run in parallel (the map part of Map Reduce) and then a single machine combines all the results into the final answer (the reduce part).
+
+
+\subsection{Feature extraction}
+To do
+
+\subsection{Naive Bayes}
+To do
+
+\subsection{Artificial Neural Networks}
+To do
+
+\subsection{Logistic regression}
+To do
+
+\subsection{K-means clustering}
+To do
+
+\newpage
+
+\section{Project Plan}
+To do
+
+
+\newpage
+
+\section{Evaluation Plan}
+To do
+
 
 \end{document}

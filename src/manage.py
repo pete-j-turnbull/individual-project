@@ -21,7 +21,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 
-# create console handler and set level to info
+# create console handler and set level to debug
 handler = logging.StreamHandler()
 handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s: %(module)s:%(lineno)s %(funcName)s: %(levelname)s - %(message)s")
@@ -40,7 +40,7 @@ handler = logging.FileHandler(os.path.join(settings.LOG_DIR, "debug_%s%s.log" % 
 handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s: %(module)s:%(lineno)s %(funcName)s: %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
-logger.addHandler(handler)
+#logger.addHandler(handler)
 
 
 #Run module with all settings stored as global

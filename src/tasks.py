@@ -42,7 +42,7 @@ def scrape_item(url):
 def parse_item_1(raw_html):
 	try:
 		soup = BeautifulSoup(raw_html)
-		divIds = ['CenterPanelInternal', 'ShipNHadling', 'rpdId', 'payId', 'vi-desc-maincntr']
+		divIds = ['CenterPanelInternal', 'shipNHadling', 'rpdId', 'payId', 'vi-desc-maincntr']
 		obj = {'html1': {}, 'item_id': None}
 
 		for d in soup.find_all('div'):
