@@ -2,9 +2,9 @@ DEBUG = False
 
 MONGO_IP = '146.169.47.50'
 MONGO_PORT = '27017'
-BLOOM_DIR = '/home/pt1812/individual_project/storage/bloomfilters'
+BLOOM_DIR = '/home/guest/Development/individual_project/storage/bloomfilters'
 
-LOG_DIR = '/home/pt1812/individual_project/storage/logs'
+LOG_DIR = '/home/guest/Development/individual_project/storage/logs'
 
 
 # CELERY and rabbitmq BROKER settings
