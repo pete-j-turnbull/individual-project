@@ -3,6 +3,8 @@ from requests import get
 import re
 import json
 from bs4 import BeautifulSoup
+from datetime import *
+import code
 
 #Utility methods
 def month_conv(month):
@@ -24,31 +26,6 @@ def conv_duration(d_text):
 	days = re.search('([0-9]*)\s*day', d_text).group(1)
 	duration = int(days) * 24 * 3600
 	return duration
-
-
-def parse_item_1(raw_html):
-	soup = BeautifulSoup(raw_html)
-	divIds = ['CenterPanelInternal', 'shipNHadling', 'rpdId', 'payId', 'vi-desc-maincntr']
-	obj = {'html1': {}, 'item_id': None}
-
-
-	for d in soup('div'):
-
-		div_class = d.get('class')
-		div_id = d.get('id')
-		if div_id in divIds:
-			obj['html1'][div_id] = d.__str__()
-
-		if div_class is None:
-			continue
-		elif 'iti-act-num' in div_class:
-			id_text = d.__str__()
-			m = re.search('>([0-9]+)</div>', id_text)
-			obj['item_id'] = m.group(1)
-
-	return obj
-
-
 
 
 def e_with_classes(soup, element_type, classes):

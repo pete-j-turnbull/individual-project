@@ -35,6 +35,7 @@ class Program():
 						exception = obj['response']
 						logging.error('Item parse 1 EntryID(%s) failed due to worker exception: %s' % (entry_id, exception))
 						self.efilter.add(entry_id)
+						i += 1
 						continue
 
 					r = obj['result']
@@ -42,11 +43,11 @@ class Program():
 
 					update(self.items_c, entry_id, {"item_id": r['item_id'], "html1": r['html1']}, {"raw_html": ""})
 
-				i += 1
 			except Exception as e:
 				logging.error('Failed to parse item(1) for entry_id: %s' % entry_id, exc_info=True)
 				self.efilter.add(entry_id)
-				i += 1
+				
+			i += 1
 
 
 #Execute code here
