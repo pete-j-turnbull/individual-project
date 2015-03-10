@@ -37,8 +37,8 @@ class Program():
 
 					if not obj['success']:
 						exception = obj['response']
-						logging.error('Bid scrape failed for entryID: %s in category: %s due to worker exception: %s' 
-							% (entry_id, self.category, exception))
+						logging.error('Bid scrape failed for entryID: %s (itemID:%s) in category: %s due to worker exception: %s' 
+							% (entry_id, item_id, self.category, exception))
 						self.efilter.add(entry_id)
 						i += 1
 						continue
