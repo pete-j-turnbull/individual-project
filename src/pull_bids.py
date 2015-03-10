@@ -37,15 +37,15 @@ class Program():
 
 					if not obj['success']:
 						exception = obj['response']
-	        			logging.error('Bid scrape failed for entryID: %s due to worker exception: %s' % (entry_id, exception))
-	        			self.efilter.add(entry_id)
-	        			i += 1
-	        			continue
+						logging.error('Bid scrape failed for entryID: %s due to worker exception: %s' % (entry_id, exception))
+						self.efilter.add(entry_id)
+						i += 1
+						continue
 
-	        		logging.debug('Bid scrape sudceeded for item: %s' % item_id)
-	        		bids = obj['result']
-	        		print bids
-	        		#update(self.items_c, items[i]['_id'], {"bid_section": bids}, {})
+					logging.debug('Bid scrape sudceeded for item: %s' % item_id)
+					bids = obj['result']
+					print bids
+					#update(self.items_c, items[i]['_id'], {"bid_section": bids}, {})
 
 			except Exception as e:
 				logging.error('Failed to scrape bids for entryID: %s' % entry_id, exc_info=True)
