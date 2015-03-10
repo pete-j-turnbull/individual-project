@@ -24,8 +24,8 @@ class Program():
 		while True:
 			if i >= items.count():
 				break
+			entry_id = items[i]['_id'].__str__()
 			try:
-				entry_id = items[i]['_id'].__str__()
 				if not self.bfilter.add(entry_id):
 					raw_html = items[i]['raw_html'].encode('utf-8')
 					_obj = send_task("tasks.parse_item_1", [raw_html])
@@ -46,7 +46,7 @@ class Program():
 			except Exception as e:
 				logging.error('Failed to parse item(1) for entry_id: %s' % entry_id, exc_info=True)
 				self.efilter.add(entry_id)
-				
+
 			i += 1
 
 

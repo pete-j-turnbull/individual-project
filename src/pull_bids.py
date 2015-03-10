@@ -44,8 +44,7 @@ class Program():
 
 					logging.debug('Bid scrape sudceeded for item: %s' % item_id)
 					bids = obj['result']
-					print bids
-					#update(self.items_c, items[i]['_id'], {"bid_section": bids}, {})
+					update(self.items_c, items[i]['_id'], {"bid_section": bids}, {})
 
 			except Exception as e:
 				logging.error('Failed to scrape bids for entryID: %s' % entry_id, exc_info=True)

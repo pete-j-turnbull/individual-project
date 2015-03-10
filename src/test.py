@@ -1,4 +1,3 @@
-from celery.task import task
 from requests import get
 import re
 import json
@@ -6,7 +5,6 @@ from bs4 import BeautifulSoup
 from datetime import *
 import code
 
-#Utility methods
 def month_conv(month):
 	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 	try:
@@ -26,6 +24,31 @@ def conv_duration(d_text):
 	days = re.search('([0-9]*)\s*day', d_text).group(1)
 	duration = int(days) * 24 * 3600
 	return duration
+
+
+def parse_item_1(raw_html):
+	soup = BeautifulSoup(raw_html)
+	divIds = ['CenterPanelInternal', 'shipNHadling', 'rpdId', 'payId', 'vi-desc-maincntr']
+	obj = {'html1': {}, 'item_id': None}
+
+
+	for d in soup('div'):
+
+		div_class = d.get('class')
+		div_id = d.get('id')
+		if div_id in divIds:
+			obj['html1'][div_id] = d.__str__()
+
+		if div_class is None:
+			continue
+		elif 'iti-act-num' in div_class:
+			id_text = d.__str__()
+			m = re.search('>([0-9]+)</div>', id_text)
+			obj['item_id'] = m.group(1)
+
+	return obj
+
+
 
 
 def e_with_classes(soup, element_type, classes):
@@ -59,70 +82,6 @@ def e_with_ids(soup, element_type, ids):
 
 
 
-
-#Actual tasks here
-@task
-def scrape_page(url):
-	urls = []
-
-	try:
-		resp = get(url)
-		print(resp)
-		if resp.status_code != 200:
-			return {'success': False, 'response': resp, 'exception': False}
-		resp_j = resp.json()
-		results = resp_j['results']
-
-		for result in results:
-			link = result['auto_column_3']
-			m = re.search('ebay.com/itm/.*/([0-9]+)\?', link)
-			item_id = m.group(1)
-			urls.append({'item_id': item_id, 'link': link})
-
-		return {'success': True, 'response': resp, 'result': urls}
-	except Exception as e:
-		return {'success': False, 'response': e, 'exception': True}
-
-
-@task
-def scrape_item(url):
-	try:
-		resp = get(url)
-		if resp.status_code != 200:
-			return {'success': False, 'response': resp, 'exception': False}
-		return {'success': True, 'response': resp}
-	except Exception as e:
-		return {'success': False, 'response': e, 'exception': True}
-
-
-@task
-def parse_item_1(raw_html):
-	try:
-		soup = BeautifulSoup(raw_html)
-		divIds = ['CenterPanelInternal', 'shipNHadling', 'rpdId', 'payId', 'vi-desc-maincntr']
-		obj = {'html1': {}, 'item_id': None}
-
-		for d in soup.find_all('div'):
-
-			div_class = d.get('class')
-			div_id = d.get('id')
-			if div_id in divIds:
-				obj['html1'][div_id] = d.__str__()
-
-			if div_class is None:
-				continue
-			elif 'iti-act-num' in div_class:
-				id_text = d.__str__()
-				m = re.search('>([0-9]+)</div>', id_text)
-				obj['item_id'] = m.group(1)
-
-		return {'success': True, 'result': obj}
-	except Exception as e:
-		return {'success': False, 'response': e, 'exception': True}
-
-
-
-@task
 def parse_center(center):
 	soup = BeautifulSoup(center)
 	item = {}
@@ -157,7 +116,6 @@ def parse_center(center):
 	return item
 
 
-@task
 def parse_descr(descr):
 	soup = BeautifulSoup(descr)
 	item = {}
@@ -169,12 +127,12 @@ def parse_descr(descr):
 	return item
 
 
-@task
+
 def get_bids(url):
 	try:
 		resp = get(url)
 		if resp.status_code != 200:
-			return {'success': False, 'response': resp, 'exception': False}
+			return {'success': False, 'response': resp}
 
 		raw_html = resp.text
 		soup = BeautifulSoup(raw_html)
@@ -230,5 +188,26 @@ def get_bids(url):
 		bids_item['bids'] = bids
 		return {'success': True, 'result': bids_item}
 	except Exception as e:
-		return {'success': False, 'response': e, 'exception': True}
+		return {'success': False, 'response': e}
 
+
+
+raw_html = get('http://www.ebay.com/itm/261758040756?orig_cvip=true').text
+obj = parse_item_1(raw_html)
+
+center = obj['html1']['CenterPanelInternal']
+descr = obj['html1']['vi-desc-maincntr']
+
+item_c = parse_center(center)
+item_descr = parse_descr(descr)
+
+
+
+ids = ['111578079089']
+bids_list = []
+for i in ids:
+	bids = get_bids('http://offer.ebay.com/ws/eBayISAPI.dll?ViewBids&item=%s&showauto=true' % i)
+	bids_list.append(bids)
+
+
+code.interact(local=locals())
