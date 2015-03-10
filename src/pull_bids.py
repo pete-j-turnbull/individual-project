@@ -27,6 +27,7 @@ class Program():
 		while True:
 			if i >= items.count():
 				break
+			entry_id = items[i]['_id'].__str__()
 			try:
 				item_id = items[i]['item_id']
 				if not self.bfilter.add(item_id):
@@ -36,8 +37,8 @@ class Program():
 
 					if not obj['success']:
 						exception = obj['response']
-	        			logging.error('Bid scrape failed for item (ID:%s) due to worker exception: %s' % (item_id, exception))
-	        			self.efilter.add(item_id)
+	        			logging.error('Bid scrape failed for entryID: %s due to worker exception: %s' % (entry_id, exception))
+	        			self.efilter.add(entry_id)
 	        			i += 1
 	        			continue
 
@@ -47,8 +48,8 @@ class Program():
 	        		#update(self.items_c, items[i]['_id'], {"bid_section": bids}, {})
 
 			except Exception as e:
-				logging.error('Failed to scrape bids for item_id: %s' % item_id, exc_info=True)
-				self.efilter.add(items_id)
+				logging.error('Failed to scrape bids for entryID: %s' % entry_id, exc_info=True)
+				self.efilter.add(entry_id)
 
 			i += 1
 
