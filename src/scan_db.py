@@ -31,11 +31,15 @@ class Program():
 				break
 
 			entry_id = items[i]['_id'].__str__()
-			item_id = items[i]['item_id']
-			html1 = items[i]['html1']
-			bid_section = items[i]['bid_section']
 
-			condition = (item_id is None) or (item_id == '') or (html1 is None) or (html1 == {}) or (html1 == '') or (bid_section is None) or (bid_section == '') or (bid_section == {})
+			try:
+				item_id = items[i]['item_id']
+				html1 = items[i]['html1']
+				bid_section = items[i]['bid_section']
+			except:
+				_exception = True
+
+			condition = _exception or (item_id is None) or (item_id == '') or (html1 is None) or (html1 == {}) or (html1 == '') or (bid_section is None) or (bid_section == '') or (bid_section == {})
 
 			if condition:
 				invalids += entry_id
@@ -46,4 +50,5 @@ class Program():
 
 #Execute code here
 program = Program()
+program.run_program()
 code.interact(local=locals())
