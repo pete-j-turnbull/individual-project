@@ -27,4 +27,14 @@ nohup fab run_worker:hosts="pt1812@edge26.doc.ic.ac.uk" & sleep 8; kill $! > /de
 nohup fab run_worker:hosts="pt1812@edge27.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
 nohup fab run_worker:hosts="pt1812@edge28.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
 
-
+nohup fab run_worker:hosts="pt1812@ray01.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray02.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray03.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray04.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray05.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray06.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray07.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray08.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray09.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray10.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
+nohup fab run_worker:hosts="pt1812@ray11.doc.ic.ac.uk" & sleep 8; kill $! > /dev/null 2>&1 &
