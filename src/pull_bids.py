@@ -50,7 +50,6 @@ class Program():
 			except Exception as e:
 				logging.error('Failed to scrape bids for entryID: %s in category: %s' % (entry_id, self.category), exc_info=True)
 				self.efilter.add(entry_id)
-
 			i += 1
 
 
