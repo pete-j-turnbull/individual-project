@@ -136,11 +136,16 @@ def parse_center(center):
 
 	#image urls
 	picture_panel = e_with_classes(soup, 'div', ['pp-ic', 'pp-ic500'])[0]
-	pic_slider = e_with_ids(picture_panel, 'div', ['vi_main_img_fs_slider'])[0]
-	images = []
-	for image in e_with_ids(pic_slider, 'img', []):
-		images.append(re.search('src=\"(.*)\" style', image.__str__()).group(1))
-	item['images'] = images
+
+	_pic_slider = e_with_ids(picture_panel, 'div', ['vi_main_img_fs_slider'])
+	if _pic_slider is None:
+		item['images'] = []
+	else:
+		pic_slider = _pic_slider[0]
+		images = []
+		for image in e_with_ids(pic_slider, 'img', []):
+			images.append(re.search('src=\"(.*)\" style', image.__str__()).group(1))
+		item['images'] = images
 
 
 	p1 = e_with_classes(soup, 'div', ['nonActPanel'])[0]
