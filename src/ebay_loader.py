@@ -14,7 +14,7 @@ def load_data(categories, bid_section, n):
 	items = db._171957.find()
 	dataset = []
 
-	for i in range(2, n):
+	for i in range(25, n):
 		try:
 			code.interact(local=locals())
 			center = parse_center(items[i]['html1']['CenterPanelInternal'])

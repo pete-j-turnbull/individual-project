@@ -138,7 +138,7 @@ def parse_center(center):
 	picture_panel = e_with_classes(soup, 'div', ['pp-ic', 'pp-ic500'])[0]
 
 	_pic_slider = e_with_ids(picture_panel, 'div', ['vi_main_img_fs_slider'])
-	if _pic_slider is None:
+	if _pic_slider == []:
 		item['images'] = []
 	else:
 		pic_slider = _pic_slider[0]
