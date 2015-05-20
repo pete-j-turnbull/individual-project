@@ -14,11 +14,15 @@ def load_data(categories, bid_section, n):
 	items = db._171957.find()
 	dataset = []
 
-	for i in range(0, n):
-		center = parse_center(items[i]['html1']['CenterPanelInternal'])
-		vals = center.values()
-		_d = {'item_title': vals[0], 'seller_rating': vals[1], 'seller_percentage': vals[4], 'num_images': len(vals[5]), 'end_timestamp': vals[6], 'condition': vals[7]}
-		dataset.append(_d)
+	for i in range(2, n):
+		try:
+			code.interact(local=locals())
+			center = parse_center(items[i]['html1']['CenterPanelInternal'])
+			vals = center.values()
+			_d = {'item_title': vals[0], 'seller_rating': vals[1], 'seller_percentage': vals[4], 'num_images': len(vals[5]), 'end_timestamp': vals[6], 'condition': vals[7]}
+			dataset.append(_d)
+		except Exception as e:
+			print i
 	return dataset
 
 dataset = load_data(None, None, 100)
