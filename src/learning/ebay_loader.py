@@ -1,7 +1,9 @@
+import sys
+sys.path.append('/home/guest/Development/individual_project/src')
+
 import pymongo
 from bson import ObjectId
 from tasks import *
-import code
 
 MONGO_IP = '146.169.47.50'
 MONGO_PORT = '27017'
@@ -40,6 +42,3 @@ def load_data(category, bid_section, n):
 			print i
 	return dataset
 
-dataset = load_data(9355, None, 100)
-
-code.interact(local=locals())
