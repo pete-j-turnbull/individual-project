@@ -132,7 +132,7 @@ def parse_center(center):
 
 	_sdf = e_with_ids(sellerinfo, 'div', ['si-fb'])
 	if _sdf == []:
-		pass
+		item['seller_percentage'] = None
 	else:
 		item['seller_percentage'] = re.search('([0-9.]*)', _sdf[0].text).group(1)
 
