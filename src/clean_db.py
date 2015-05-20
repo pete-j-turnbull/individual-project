@@ -30,21 +30,22 @@ class Program():
 			list_string = deletions.readlines()[0]
 			l = list_string[2:len(list_string)-2].split('\', \'')
 
-			#for item in l:
+			for id_ in l:
 				#program.items_c.remove({"_id": ObjectId(item)})
 
-			item = program.items_c.find({"_id" : ObjectId(l[0])})[0]
+				item = program.items_c.find({"_id" : ObjectId(id_)})[0]
 
-			_exception = False
+				_exception = False
 
-			if 'item_id' not in item.keys() or 'html1' not in item.keys():
-				_exception = True
-			else:	
-				item_id = item['item_id']
-				html1 = item['html1']
+				if 'item_id' not in item.keys() or 'html1' not in item.keys():
+					_exception = True
+				else:	
+					item_id = item['item_id']
+					html1 = item['html1']
 
-			condition = _exception or (item_id is None) or (item_id == '') or (html1 is None) or (html1 == {}) or (html1 == '')
-			print condition
+				condition = _exception or (item_id is None) or (item_id == '') or (html1 is None) or (html1 == {}) or (html1 == '')
+				print condition
+
 
 			print len(l)
 
