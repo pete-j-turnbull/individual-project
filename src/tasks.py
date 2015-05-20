@@ -129,7 +129,12 @@ def parse_center(center):
 
 	sellerinfo = e_with_classes(soup, 'div', ['si-inner'])[0]
 	item['seller_rating'] = e_with_ids(sellerinfo, 'a', [])[1].text
-	item['seller_percentage'] = re.search('([0-9.]*)', e_with_ids(sellerinfo, 'div', ['si-fb'])[0].text).group(1)
+
+	_sdf = e_with_ids(sellerinfo, 'div', ['si-fb'])
+	if _sdf == []:
+		pass
+	else:
+		item['seller_percentage'] = re.search('([0-9.]*)', _sdf[0].text).group(1)
 
 	item['item_title'] = re.search('span>(.*)</h1>', e_with_ids(soup, 'h1', ['itemTitle'])[0].__str__()).group(1)
 
@@ -138,7 +143,7 @@ def parse_center(center):
 	picture_panel = e_with_classes(soup, 'div', ['pp-ic', 'pp-ic500'])[0]
 
 	_pic_slider = e_with_ids(picture_panel, 'div', ['vi_main_img_fs_slider'])
-	if _pic_slider is None:
+	if _pic_slider == []:
 		item['images'] = []
 	else:
 		pic_slider = _pic_slider[0]
