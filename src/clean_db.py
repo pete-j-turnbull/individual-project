@@ -2,7 +2,6 @@ import pymongo
 from importlib import import_module
 from utility import *
 from bson import ObjectId
-from json import load
 import code
 
 settings = import_module(os.environ['SETTINGS'])
@@ -28,8 +27,10 @@ class Program():
 
 		#Load from deletion file all invalids
 		with open(self.deletion_filename) as deletions:
-			data = json.load(deletions)
-			print data
+			list_string = deletions.readlines()[0]
+			l = list_string.split(str=',')
+
+			print l
 
 
 		#Loop through invalids and delete each one
