@@ -47,6 +47,8 @@ class Program():
 				condition = _exception or (item_id is None) or (item_id == '') or (html1 is None) or (html1 == {}) or (html1 == '')
 				if condition:
 					j += 1
+					#Delete this entry - it is doomed
+					program.items_c.remove({"_id" : ObjectId(l[i])})
 
 
 			print j
