@@ -6,7 +6,9 @@ import os
 from importlib import import_module
 from bson.objectid import ObjectId
 
-settings = import_module(os.environ['SETTINGS'])
+
+#settings = import_module(os.environ['SETTINGS'])
+settings = import_module('ICLOUD_SETTINGS')
 
 def get_mongo_connection():
 	try:
