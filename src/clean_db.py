@@ -29,12 +29,12 @@ class Program():
 		with open(self.deletion_filename) as deletions:
 			list_string = deletions.readlines()[0]
 			l = list_string[2:len(list_string)-2].split('\', \'')
-			i = 0
+			j = 0
 
-			for id_ in l:
+			for i in range(0, len(l)-1):
 				#program.items_c.remove({"_id": ObjectId(item)})
 
-				item = program.items_c.find({"_id" : ObjectId(id_)})[0]
+				item = program.items_c.find({"_id" : ObjectId(l[i])})[0]
 
 				_exception = False
 
@@ -46,10 +46,10 @@ class Program():
 
 				condition = _exception or (item_id is None) or (item_id == '') or (html1 is None) or (html1 == {}) or (html1 == '')
 				if condition:
-					i += 1
+					j += 1
 
 
-			print i
+			print j
 			print len(l)
 
 
