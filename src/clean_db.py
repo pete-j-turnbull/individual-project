@@ -28,9 +28,14 @@ class Program():
 		#Load from deletion file all invalids
 		with open(self.deletion_filename) as deletions:
 			list_string = deletions.readlines()[0]
-			l = list_string.split(str=',')
+			l = list_string[2:len(list_string)-2].split(str='\', \'')
 
-			print l
+			for item in l:
+
+				#program.items_c.remove({"_id": ObjectId(item)})
+				print program.items_c.find("_id" : ObjectId(item))[0]
+			
+			print len(l)
 
 
 		#Loop through invalids and delete each one
