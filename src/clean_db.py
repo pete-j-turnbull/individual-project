@@ -29,6 +29,7 @@ class Program():
 		with open(self.deletion_filename) as deletions:
 			list_string = deletions.readlines()[0]
 			l = list_string[2:len(list_string)-2].split('\', \'')
+			i = 0
 
 			for id_ in l:
 				#program.items_c.remove({"_id": ObjectId(item)})
@@ -44,9 +45,11 @@ class Program():
 					html1 = item['html1']
 
 				condition = _exception or (item_id is None) or (item_id == '') or (html1 is None) or (html1 == {}) or (html1 == '')
-				print condition
+				if condition:
+					i += 1
 
 
+			print i
 			print len(l)
 
 
