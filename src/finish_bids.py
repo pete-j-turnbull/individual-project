@@ -28,9 +28,11 @@ class Program():
 				obj = get_bids(bids_url)
 
 				success = obj['success']
-				bid_section = obj['result']
-
-				print 'Success : %s, bid_section : %s' % (success, bid_section)
+				if success:
+					bid_section = obj['result']
+					print 'Success : %s, bid_section : %s' % (success, bid_section)
+				else:
+					print 'Failed for item : %s' % item['item_id']
 
 
 
