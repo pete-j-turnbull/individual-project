@@ -2,6 +2,7 @@ import pymongo
 from importlib import import_module
 from utility import *
 from bson import ObjectId
+from tasks import *
 import code
 
 settings = import_module(os.environ['SETTINGS'])
@@ -21,8 +22,15 @@ class Program():
 		i = 0
 		for i in range(0, cursor.count()):
 			item = cursor[i]
-			if item['bid_section'] is None:
-				print 'No bid section at item: %s' % item['item_id']
+			if not 'bid_section' in item.keys():
+				#Get bid section
+				bids_url = 'http://offer.ebay.com/ws/eBayISAPI.dll?ViewBids&item=%s&showauto=true' % item['item_id']
+				obj = get_bids(bids_url)
+
+				success = obj['success']
+				bid_section = obj['result']
+
+				print 'Success : %s, bid_section : %s' % (success, bid_section)
 
 
 
