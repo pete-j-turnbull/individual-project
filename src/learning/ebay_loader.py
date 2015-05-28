@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/guest/Development/individual_project/src')
+sys.path.append('../')
 
 import pymongo
 from bson import ObjectId
@@ -36,7 +36,7 @@ def load_data(category, bid_section, n):
 		try:
 			center = parse_center(items[i]['html1']['CenterPanelInternal'])
 			vals = center.values()
-			_d = {'item_title': vals[0], 'seller_rating': vals[1], 'seller_percentage': vals[4], 'num_images': len(vals[5]), 'end_timestamp': vals[6], 'condition': vals[7]}
+			_d = {'item_title': vals[0], 'price': vals[1], 'seller_rating': vals[2], 'seller_percentage': vals[5], 'num_images': len(vals[6]), 'end_timestamp': vals[7], 'condition': vals[8]}
 			dataset.append(_d)
 		except Exception as e:
 			print i
