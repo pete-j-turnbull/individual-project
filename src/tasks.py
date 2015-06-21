@@ -156,11 +156,12 @@ def parse_center(center):
 	p2 = e_with_classes(soup, 'div', ['actPanel'])[0]
 	_time = e_with_classes(p1, 'span', ['endedDate'])[0]
 
+
 	_mmd = e_with_ids(p2, 'span', ['prcIsum_bidPrice'])
 	price = None
 	if not _mmd == []:
 		price = re.search('>(.*)<', _mmd[0].__str__()).group(1)
-	item['price'] = price
+	item['price'] = price 
 
 	item['condition'] = e_with_ids(p1, 'div', ['vi-itm-cond'])[0].text
 	item['timestamp_end'] = re.search('timems=\"([0-9]*)\">', _time.__str__()).group(1)
