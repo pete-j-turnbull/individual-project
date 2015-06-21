@@ -126,7 +126,6 @@ def parse_item_1(raw_html):
 def parse_center(center):
 	soup = BeautifulSoup(center)
 	item = {}
-
 	sellerinfo = e_with_classes(soup, 'div', ['si-inner'])[0]
 	item['seller_rating'] = e_with_ids(sellerinfo, 'a', [])[1].text
 
@@ -157,8 +156,19 @@ def parse_center(center):
 	p2 = e_with_classes(soup, 'div', ['actPanel'])[0]
 	_time = e_with_classes(p1, 'span', ['endedDate'])[0]
 
+
+	_mmd = e_with_ids(p2, 'span', ['prcIsum_bidPrice'])
+	price = None
+	if not _mmd == []:
+		price = re.search('>(.*)<', _mmd[0].__str__()).group(1)
+	item['price'] = price
+
 	item['condition'] = e_with_ids(p1, 'div', ['vi-itm-cond'])[0].text
 	item['timestamp_end'] = re.search('timems=\"([0-9]*)\">', _time.__str__()).group(1)
+
+	bids_html = e_with_ids(soup, 'span', ['qty-test'])[0]
+	bids = re.search('>([0-9]*)</', bids_html.__str__()).group(1)
+	item['bids'] = bids
 
 	item['delivery'] = e_with_classes(soup, 'div', ['sh-del-frst']).__str__()
 	item['payments'] = e_with_ids(soup, 'div', ['payDet1']).__str__()
@@ -202,7 +212,7 @@ def get_bids(url):
 		te = getdatetime(ys[2].text)
 		bids_item['end_time'] = te.__str__()
 		bids_item['end_timestamp'] = getepoch(te)
-		bids_item['final_price'] = re.search('\$(.*\..*)', e_with_classes(top, 'td', ['BHctBidVal'])[0].text).group(1)
+		bids_item['final_price'] = re.search('GBP(.*\..*)', e_with_classes(top, 'td', ['BHctBidVal'])[0].text).group(1)
 
 		#Bids table
 		bt = e_with_ids(bottom, 'div', ['vizrefdiv'])[0]
@@ -216,7 +226,7 @@ def get_bids(url):
 			bids_item['start_time'] = datetime.fromtimestamp(bids_item['start_timestamp']).__str__()
 		else:
 			bids_item['numbidsauto'] = (len(bids_table) / 3) - 1
-			bids_item['starting_price'] = re.search('\$(.*\..*)', bids_table[len(bids_table)-2].text).group(1)
+			bids_item['starting_price'] = re.search('GBP(.*\..*)', bids_table[len(bids_table)-2].text).group(1)
 			ts = getdatetime(bids_table[len(bids_table)-1].text)
 			bids_item['start_time'] = ts.__str__()
 			bids_item['start_timestamp'] = getepoch(ts)
@@ -232,7 +242,7 @@ def get_bids(url):
 				if _bidder.get('class')[0] == 'newcontentValueFont':
 					auto = True
 
-				bid = re.search('\$(.*\..*)', bids_table[i+1].text).group(1)
+				bid = re.search('GBP(.*\..*)', bids_table[i+1].text).group(1)
 				btime = getdatetime(bids_table[i+2].text)
 				bid_time = btime.__str__()
 				bid_timestamp = getepoch(btime)

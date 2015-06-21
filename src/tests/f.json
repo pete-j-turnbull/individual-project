@@ -1,0 +1,27 @@
+{
+	'item_id': u'191489891064',
+	'_id': ObjectId('54e1daf2e70b484509a4d00d'),
+	'center':
+		{
+			'item_title': 
+				'Samsung Galaxy S5 Active SM-G870A (Latest Model) - 16GB - Camo Green (AT&amp;T)...',
+			'price': 
+				'US $455.00', 
+			'bids': 
+				'14', 
+			'seller_rating': 
+				'208',
+			'returns': 
+				'[<span class=" vi-no-ret-accrd-txt" id="vi-ret-accrd-txt"> Seller does not offer returns. You are covered by the <a href="http://pages.ebay.com/coverage/index.html">eBay Money Back Guarantee<b class="g-hdn"> - opens in a new window or tab</b></a> if you received an item that is not as described in the listing.</span>]', 
+			'seller_percentage': 
+				'100', 
+			'images': 
+				['http://i.ebayimg.com/00/s/NjcyWDExOTU=/z/0~YAAOSwm8VUwaIB/$_14.JPG', 'http://i.ebayimg.com/00/s/MzE0WDU1OA==/z/gvMAAOSwxYxUwFwG/$_14.JPG'], 
+			'timestamp_end': 
+				'1422152444000', 
+			'condition': 
+				'New', 
+			'delivery': 
+				'[<div class="sh-del-frst sh-gspLargeFontDel" role="alert"> \nEstimated within 7-13 business days<span class="">\n<a class="sh-qmark" href="javascript:;" id="hldhlp">\xc2\xa0<b class="g-hdn">help icon for Estimated delivery date - opens a layer</b></a>\n</span>\n<div class="oly_upnl" id="w1-20-overlay"><div aria-live="assertive" class="vi-shp-shpolay" role="alert">\n<a href="http://pages.ebay.com/help/buy/contextual/estimated-delivery.html" target="_blank">Estimated delivery dates <b class="hideforacc"> - opens in a new window or tab</b></a> include seller\'s handling time, origin ZIP Code, destination ZIP Code and time of acceptance and will depend on shipping service selected and receipt of <a href="http://pages.ebay.com/help/buy/contextual/domestic-handling-time.html" target="_blank">cleared payment<b class="hideforacc"> - opens in a new window or tab</b></a>. Delivery times may vary, especially during peak periods.</div>\n</div>\n</div>]'
+		}
+}

@@ -30,7 +30,8 @@ class Program():
 				success = obj['success']
 				if success:
 					bid_section = obj['result']
-					print 'Success : %s, bid_section : %s' % (success, bid_section)
+					update(self.items_c, item['_id'], {"bid_section": bid_section}, {})
+					print 'Success : %s' % success
 				else:
 					print 'Failed for item : %s' % item['item_id']
 
