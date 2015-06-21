@@ -156,7 +156,6 @@ def parse_center(center):
 	p2 = e_with_classes(soup, 'div', ['actPanel'])[0]
 	_time = e_with_classes(p1, 'span', ['endedDate'])[0]
 
-
 	_mmd = e_with_ids(p2, 'span', ['prcIsum_bidPrice'])
 	price = None
 	if not _mmd == []:
