@@ -7,7 +7,7 @@ from tasks import *
 
 MONGO_IP = '146.169.47.50'
 MONGO_PORT = '27017'
-
+''
 #connection = pymongo.Connection('mongodb://%s:%s' % (MONGO_IP, MONGO_PORT), safe=True)
 
 data = [({'item_title': 'Apple iPhone 5 - 32GB - Black &amp; Slate (AT&amp;T) Smartphone'}, 207.50), ({'item_title': 'Apple iPhone 6 (Latest Model) - 16GB - Silver (AT&amp;T) Smartphone'}, 590.0), ({'item_title': 'Apple iPhone 5 - 16GB - Black &amp; Slate (AT&amp;T) Smartphone'}, 67.0), ({'item_title': 'Apple iPhone 3G (8 GB) UNLOCKED'}, 39.99), 
@@ -59,4 +59,4 @@ def load_data(category, n_train, n_test):
 			print i
 
 
-	return (training_set, testing_set)
+	return (straining_set, testing_set)

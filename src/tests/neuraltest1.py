@@ -48,7 +48,7 @@ def get_items(items):
 	timestamp_ends = []
 	prices = []
 
-	N_samples = 10
+	N_samples = 3
 
 	x = 0; z = 0; i = -1
 	while x < N_samples or z < N_samples:
@@ -66,10 +66,10 @@ def get_items(items):
 		condition = center['condition']
 		timestamp_end = center['timestamp_end']
 
-		_p = re.search('US \$(.*)', center['price'])
-		if _p == None:
+		try:
+			price = float(re.search('US \$(.*)', center['price']).group(1))
+		except Exception as e:
 			continue
-		price = float(_p.group(1))
 
 		print title, bids, sold, sell_rat, sell_perc, condition, timestamp_end, price, x, z
 
@@ -144,7 +144,7 @@ def split_dataset(dataset):
 
 
 #X is the vector y is the label
-titles, solds = get_items(item_coll)
+titles, bidss, solds, sell_rats, sell_percs, conditions, timestamp_ends, prices = get_items(item_coll)
 
 label0 = [[], []]
 label1 = [[], []]
@@ -167,7 +167,7 @@ titles_tf = titles_tf.todense().astype(np.float32)
 solds = np.array(_solds).astype(np.int32)
 
 dataset = (titles_tf, solds)
-f = open('./dataset2.pickle', 'w')
+f = open('./dataset3.pickle', 'w')
 pickle.dump(dataset, f)
 f.close()
 

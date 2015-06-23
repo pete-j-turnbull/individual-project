@@ -20,6 +20,7 @@ for d in training_set:
 vectorizer = CountVectorizer(min_df=1)
 
 
+
 _X = vectorizer.fit_transform(titles)
 
 tf_transformer = TfidfTransformer()
@@ -35,7 +36,7 @@ for d in testing_set:
 
 X = tf_transformer.transform( vectorizer.transform(titles) )
 prices_pred = map((lambda x: (x * CAT_SPACING) + CAT_SPACING / 2), model.predict(X))
-
+i
 for (title, price) in zip(titles, prices_pred):
 	print '%s => $%s' % (title, price)
 

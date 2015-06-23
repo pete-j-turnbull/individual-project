@@ -62,7 +62,7 @@ def get_items(items):
 	titles = []
 	ds = []
 	prices = []
-	for i in range(0, 4000):
+	for i in range(0, 4):
 		_id = items.find()[i]['item_id']
 		center_html = items.find()[i]['html1']['CenterPanelInternal']
 		center = tasks.parse_center(center_html)
@@ -143,6 +143,7 @@ print 'there are ' + str(vocab_frame.shape[0]) + ' items in vocab_frame'
 ds_tfidf = tfidf_descrs(ds)
 
 
+code.interact(local=locals())
 
 
 #KMEANS here

@@ -145,7 +145,7 @@ def parse_center(center):
 	if _pic_slider == []:
 		item['images'] = []
 	else:
-		pic_slider = _pic_slider[0]
+		pic_slider = _pic_slider[0]''
 		images = []
 		for image in e_with_ids(pic_slider, 'img', []):
 			images.append(re.search('src=\"(.*)\" style', image.__str__()).group(1))
